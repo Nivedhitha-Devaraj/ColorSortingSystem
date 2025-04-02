@@ -1,0 +1,41 @@
+#COLOR DETECTION CODE
+
+img = imread('greenleaf.jpg'); 
+imshow(img);
+title('Input Image');
+[rows, cols, channels] = size(img);
+if channels == 3
+    center_pixel = img(round(rows/2), round(cols/2), :);
+    R = double(center_pixel(1)) / 255;
+    G = double(center_pixel(2)) / 255;
+    B = double(center_pixel(3)) / 255;
+    time = 0; 
+    R_Input = timeseries(R, time);
+    G_Input = timeseries(G, time);
+    B_Input = timeseries(B, time);
+    assignin('base', 'R_Input', R_Input);
+    assignin('base', 'G_Input', G_Input);
+    assignin('base', 'B_Input', B_Input);
+    fprintf('Extracted RGB: R=%.2f, G=%.2f, B=%.2f\n', R, G, B);
+else
+    error('The image is not an RGB image. Please use a color image.');
+end
+
+
+#MATLAB FUNCTION CODE
+
+function bin = ColorDetection(RGB)
+R = RGB(1);
+G = RGB(2);
+B = RGB(3);
+if R > G && R > B
+    bin = 1;
+elseif G > R && G > B
+    bin = 2;
+elseif B > R && B > G
+    bin = 3;
+else
+    bin = 0;
+end
+end
+
